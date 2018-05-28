@@ -1,9 +1,10 @@
 ﻿<Application x:Class="WpfDiary.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:WpfDiary.ViewModels"
+             xmlns:vw="clr-namespace:WpfDiary.Views"
              xmlns:local="clr-namespace:WpfDiary"
-             StartupUri="MainWindow.xaml">
+             StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
-         
     </Application.Resources>
 </Application>

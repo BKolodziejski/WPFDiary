@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="WpfDiary.Views.EntryDetails"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:c="clr-namespace:WpfDiary.Converters" 
+             xmlns:local="clr-namespace:WpfDiary.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <c:BoolToVisibilityConverter x:Key="visibilityConverter" />
+        <Style x:Key="link" TargetType="{x:Type Hyperlink}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="DarkSlateBlue" />
+                </Trigger>
+            </Style.Triggers>
+            <Setter Property="Foreground" Value="SteelBlue" />
+            <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
+        </Style>
+    </UserControl.Resources>
+    <ScrollViewer>
+        <Grid Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" MaxWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal">
+                <Button Height="32" Width="32" Cursor="Hand" Command="{Binding ViewList}">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Image Source="/images/go_back.png"/>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Label Content="Edit Entry" Cursor="Hand" Foreground="#07C">
+                    <Label.InputBindings>
+                        <MouseBinding Command="{Binding EditEntry}" MouseAction="LeftClick" />
+                    </Label.InputBindings>
+                </Label>
+                <Label Content="Delete Entry" Cursor="Hand" Foreground="#07C">
+                    <Label.InputBindings>
+                        <MouseBinding Command="{Binding DeleteEntry}" MouseAction="LeftClick" />
+                    </Label.InputBindings>
+                </Label>
+            </StackPanel>
+
+            <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Padding="0 0 10 0" Text="{Binding Title}" TextWrapping="Wrap" Cursor="Hand"  FontSize="30" Margin="0 0 0 15" />
+            <Label Grid.Column="2" Grid.Row="1" Content="{Binding CreatedDate}" />
+
+            <TextBlock Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" FontSize="20" TextWrapping="Wrap" Text="{Binding Content}"/>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

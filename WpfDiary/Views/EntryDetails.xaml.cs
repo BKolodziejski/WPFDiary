@@ -12,16 +12,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfDiary.ViewModels;
 
-namespace WpfDiary
+namespace WpfDiary.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for EntryDetails.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class EntryDetails : UserControl
     {
-        public MainWindow()
+        public EntryDetails(DiaryEntryViewModel entry)
         {
+            DataContext = entry;
             InitializeComponent();
         }
     }
