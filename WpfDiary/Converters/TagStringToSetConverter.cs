@@ -5,21 +5,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using WpfDiary.Models;
 
 namespace WpfDiary.Converters
 {
-    public class BoolToVisibilityConverter : IValueConverter
+    public class TagStringToSetConverter : IValueConverter
     {
         public object Convert(object value, Type targetType,
             object parameter, CultureInfo culture)
         {
-            return (bool)value ? "Visible" : "Collapsed"; 
+            return Utils.TagsSetToString((HashSet<string>)value);
         }
 
         public object ConvertBack(object value, Type targetType,
             object parameter, CultureInfo culture)
         {
-            return value as string == "Visible" ? true : false;
+            return Utils.TagsStringToSet(value as string);
         }
     }
 }

@@ -5,10 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:c="clr-namespace:WpfDiary.Converters"
              xmlns:local="clr-namespace:WpfDiary.Views"
+             xmlns:cc="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <c:BoolToVisibilityConverter x:Key="visibilityConverter" />
+        <c:TagStringToSetConverter x:Key="tagConverter" />
+        <c:FilterVisibilityTextConverter x:Key="filterTextConverter" />
         <Style x:Key="link" TargetType="{x:Type Label}">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
@@ -19,35 +22,36 @@
             <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
         </Style>
     </UserControl.Resources>
-    <Grid>
-        <Border>
-            <DockPanel>
-                <Grid DockPanel.Dock="Top">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
+    <DockPanel LastChildFill="True">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <Button Command="{Binding AddNewEntry}" Content="Add Entry"/>
+            <Button Command="{Binding ToggleFilters}" Content="{Binding IsFilterVisible, Converter={StaticResource filterTextConverter}}"/>
+        </StackPanel>
+        <Grid DockPanel.Dock="Top" Visibility="{Binding IsFilterVisible, Converter={StaticResource visibilityConverter}}" Margin="5 0 18 10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-
-                    <Button Grid.Row="0" Grid.Column="0" Padding="0 0 10 0" Content="Date" />
-                    <Label Grid.Row="0" Grid.Column="1" Content="Tagged with" />
-                    <TextBox Grid.Row="0" Grid.Column="2" />
-                    <Button Grid.Row="0" Grid.Column="3" Content="Search" />
-
-                    <Label Grid.Row="1" Grid.ColumnSpan="4" Content="Add New Entry" Cursor="Hand" Foreground="#07C">
-                        <Label.InputBindings>
-                            <MouseBinding Command="{Binding AddNewEntry}" MouseAction="LeftClick" />
-                        </Label.InputBindings>
-                    </Label>
-
-                </Grid>
-
+            <Label Grid.Column="0" Grid.Row="0" Content="Tags Containing: "/>
+            <TextBox Text="{Binding FilteredTags, Converter={StaticResource tagConverter}}" Grid.Column="1" Grid.Row="0" />
+            <Label Grid.Column="0" Grid.Row="2" Content="Text Containing: "/>
+            <TextBox Text="{Binding FilteredText}" Grid.Column="1" Grid.Row="2" />
+            <Label Grid.Column="0" Grid.Row="4" Content="Created: "/>
+            <local:DateSlider StartDate="{Binding StartDate, Mode=OneWay}" EndDate="{Binding EndDate, Mode=OneWay}" Dates="{Binding FilterDates}" MinHeight="20" Grid.Column="1" Grid.Row="4" Background="Transparent"/>
+            <Button Grid.Row="6" Content="Apply" Command="{Binding ApplyFilter}"/>
+        </Grid>
+        <Grid>
+            <Border>
                 <ScrollViewer>
                     <ItemsControl ItemsSource="{Binding Entries}">
                         <ItemsControl.ItemTemplate>
@@ -63,12 +67,21 @@
                                         <RowDefinition />
                                         <RowDefinition />
                                         <RowDefinition />
+                                        <RowDefinition />
                                     </Grid.RowDefinitions>
 
-                                    <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Padding="0 0 10 0" Text="{Binding Title}" TextWrapping="Wrap" Cursor="Hand"  FontSize="30" Margin="0 0 0 15" />
+                                    <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Padding="0 0 10 0" Text="{Binding Title}" TextWrapping="Wrap" Cursor="Hand"  FontSize="30" Margin="0 0 0 15">
+                                        <TextBlock.InputBindings>
+                                            <MouseBinding Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.ViewDetails}"
+                                                              CommandParameter="{Binding Entry}" MouseAction="LeftClick" />
+                                        </TextBlock.InputBindings>
+                                    </TextBlock>
                                     <Label Grid.Column="2" Grid.Row="0" Content="{Binding CreatedDate}" />
 
-                                    <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" FontSize="20" TextWrapping="Wrap" Text="{Binding Content}">
+                                    <Label Grid.Column="0" Grid.Row="1" Content="Tags:"/>
+                                    <Label Grid.Column="1" Grid.Row="1" Content="{Binding Tags}"/>
+
+                                    <TextBlock Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" FontSize="20" TextWrapping="Wrap" Text="{Binding Content}">
                                         <Label Visibility="{Binding IsTrimmed, Converter={StaticResource visibilityConverter}}" Style="{StaticResource link}" Content="&#160;&#160;Read More">
                                             <Label.InputBindings>
                                                 <MouseBinding Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.ViewDetails}"
@@ -76,13 +89,13 @@
                                             </Label.InputBindings>
                                         </Label>
                                     </TextBlock>
-                                    <Separator Grid.Row="2" Grid.ColumnSpan="3"/>
+                                    <Separator Grid.Row="3" Grid.ColumnSpan="3"/>
                                 </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </ScrollViewer>
-            </DockPanel>
-        </Border>
-    </Grid>
+            </Border>
+        </Grid>
+    </DockPanel>
 </UserControl>

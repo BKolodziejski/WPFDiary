@@ -10,5 +10,8 @@ namespace WpfDiary.ViewModels
     {
         public const int DIARY_ENTRY_LIST_CONTENT_MAX_LENGTH = 480;
         public const int DIARY_ENTRY_NON_TRIMMED = 0;
+
+        public const string FILTERS_VISIBLE_TEXT = "Hide Filters";
+        public const string FILTERS_HIDDEN_TEXT = "Show Filters";
     }
 }

@@ -15,6 +15,7 @@ namespace WpfDiary.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
         public DiaryEntry Entry { get; }
+        private DiaryViewModel goBackModel;
 
         private bool isTrimmed;
         public bool IsTrimmed
@@ -100,7 +101,7 @@ namespace WpfDiary.ViewModels
                 {
                     viewList = new RelayCommand(
                         p => true,
-                        p => WindowService.ShowList(new DiaryViewModel())
+                        p => WindowService.ShowList(goBackModel)
                     );
                 }
                 return viewList;
@@ -142,18 +143,19 @@ namespace WpfDiary.ViewModels
                 return deleteEntry;
             }
         }
-        public DiaryEntryViewModel(DiaryEntry entry, int trimLength = ViewModelConstants.DIARY_ENTRY_LIST_CONTENT_MAX_LENGTH)
+        public DiaryEntryViewModel(DiaryEntry entry, int trimLength = ViewModelConstants.DIARY_ENTRY_LIST_CONTENT_MAX_LENGTH, DiaryViewModel vm = null)
         {
-            Diary.Instance.RegisterListener(handleElementsChanged);
+            Diary.Instance.RegisterListener(HandleElementsChanged);
             Entry = entry;
             Title = entry.Title;
             IsTrimmed = trimLength > 0 && trimLength < entry.Content.Length;
             Content = isTrimmed ? entry.Content.Substring(0, trimLength) + "...": entry.Content;
             CreatedDate = entry.Created;
             Tags = Utils.TagsSetToString(entry.Tags);
+            goBackModel = vm;
         }
 
-        private void handleElementsChanged(CollectionChangedEventType type, List<DiaryEntry> changedElements)
+        public void HandleElementsChanged(CollectionChangedEventType type, List<DiaryEntry> changedElements)
         {
             switch(type)
             {
@@ -170,7 +172,7 @@ namespace WpfDiary.ViewModels
                 case CollectionChangedEventType.Removed:
                     if (changedElements.Contains(Entry))
                     {
-                        WindowService.ShowList(new DiaryViewModel());
+                        WindowService.ShowList(goBackModel);
                     }
                     break;
                 default:

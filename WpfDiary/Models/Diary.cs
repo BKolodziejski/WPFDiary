@@ -40,25 +40,20 @@ namespace WpfDiary.Models
         public void RemoveEntry(DiaryEntry entry)
         {
             entries.Remove(entry);
-            CollectionChangedEvent(CollectionChangedEventType.Removed, new List <DiaryEntry> { entry });
+            CollectionChangedEvent?.Invoke(CollectionChangedEventType.Removed, new List<DiaryEntry> { entry });
         }
 
         public void AddEntry(string title, string content, string tags)
         {
             DiaryEntry entry = new DiaryEntry(title, content, Utils.TagsStringToSet(tags), DateTime.Now);
             entries.Add(entry);
-            CollectionChangedEvent(CollectionChangedEventType.Added, new List <DiaryEntry> { entry });
+            CollectionChangedEvent?.Invoke(CollectionChangedEventType.Added, new List <DiaryEntry> { entry });
         }
 
         public void EditEntry(DiaryEntry entry, string title, string content, string tags, DateTime created)
         {
             entry.Update(title, content, Utils.TagsStringToSet(tags), created);
-            CollectionChangedEvent(CollectionChangedEventType.Updated, new List<DiaryEntry> { entry });
-        }
-
-        public IEnumerable<DiaryEntry> GetEntriesBetween(DateTime start, DateTime end)
-        {
-            return new List<DiaryEntry>(entries.Where(entry => entry.Created > start && entry.Created < end));
+            CollectionChangedEvent?.Invoke(CollectionChangedEventType.Updated, new List<DiaryEntry> { entry });
         }
 
         public IEnumerable<DiaryEntry> GetEntriesTaggedWith(string tags)
@@ -70,6 +65,11 @@ namespace WpfDiary.Models
         public IEnumerable<DiaryEntryViewModel> GetAllEntries()
         {
             return entries.Select(entry => new DiaryEntryViewModel(entry)).ToList();
+        }
+
+        public IEnumerable<DiaryEntryViewModel> GetFilteredEntries(Filter f)
+        {
+            return f.Apply(entries).Select(entry => new DiaryEntryViewModel(entry));
         }
     }
 }

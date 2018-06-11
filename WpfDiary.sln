@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfDiary", "WpfDiary\WpfDiary.csproj", "{D675A5AC-7A7E-4225-92B4-3CE5372D08F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfDiaryTests", "WpfDiaryTests\WpfDiaryTests.csproj", "{80A4A5D2-8E36-4B70-8AD6-84AB964B4B8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D675A5AC-7A7E-4225-92B4-3CE5372D08F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D675A5AC-7A7E-4225-92B4-3CE5372D08F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D675A5AC-7A7E-4225-92B4-3CE5372D08F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80A4A5D2-8E36-4B70-8AD6-84AB964B4B8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80A4A5D2-8E36-4B70-8AD6-84AB964B4B8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80A4A5D2-8E36-4B70-8AD6-84AB964B4B8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80A4A5D2-8E36-4B70-8AD6-84AB964B4B8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

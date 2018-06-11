@@ -20,6 +20,10 @@ namespace WpfDiary.Models
 
         public static string TagsSetToString(HashSet<string> tags)
         {
+            if (tags == null)
+            {
+                return "";
+            }
             return string.Join(", ", tags.ToArray());
         }
     }

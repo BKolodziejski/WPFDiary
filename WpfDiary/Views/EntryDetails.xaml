@@ -19,43 +19,38 @@
             <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
         </Style>
     </UserControl.Resources>
-    <ScrollViewer>
-        <Grid Margin="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" MaxWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
+    <DockPanel LastChildFill="True">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <Button Margin="0 0 10 0" Height="32" Width="32" Cursor="Hand" Command="{Binding ViewList}">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Image Source="/images/go_back.png"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Command="{Binding EditEntry}" Content="Edit"/>
+            <Button Command="{Binding DeleteEntry}" Content="Delete"/>
+        </StackPanel>
+        <ScrollViewer>
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" MaxWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal">
-                <Button Height="32" Width="32" Cursor="Hand" Command="{Binding ViewList}">
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Image Source="/images/go_back.png"/>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-                <Label Content="Edit Entry" Cursor="Hand" Foreground="#07C">
-                    <Label.InputBindings>
-                        <MouseBinding Command="{Binding EditEntry}" MouseAction="LeftClick" />
-                    </Label.InputBindings>
-                </Label>
-                <Label Content="Delete Entry" Cursor="Hand" Foreground="#07C">
-                    <Label.InputBindings>
-                        <MouseBinding Command="{Binding DeleteEntry}" MouseAction="LeftClick" />
-                    </Label.InputBindings>
-                </Label>
-            </StackPanel>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Padding="0 0 10 0" Text="{Binding Title}" TextWrapping="Wrap" Cursor="Hand"  FontSize="30" Margin="0 0 0 15" />
-            <Label Grid.Column="2" Grid.Row="1" Content="{Binding CreatedDate}" />
-
-            <TextBlock Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" FontSize="20" TextWrapping="Wrap" Text="{Binding Content}"/>
-        </Grid>
-    </ScrollViewer>
+                <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Padding="0 0 10 0" Text="{Binding Title}" TextWrapping="Wrap" Cursor="Hand"  FontSize="30" Margin="0 0 0 15" />
+                <Label Grid.Column="2" Grid.Row="0" Content="{Binding CreatedDate}" />
+                <Label Grid.Column="0" Grid.Row="1" Content="Tags: "/>
+                <Label Grid.Column="1" Grid.Row="1" Content="{Binding Tags}"/>
+                <TextBlock Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" FontSize="20" TextWrapping="Wrap" Text="{Binding Content}"/>
+            </Grid>
+        </ScrollViewer>
+    </DockPanel>
 </UserControl>

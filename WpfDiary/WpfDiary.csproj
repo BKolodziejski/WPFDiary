@@ -54,6 +54,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\DiaryEntryDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -74,8 +78,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\FilterVisibilityTextConverter.cs" />
+    <Compile Include="Converters\TagStringToSetConverter.cs" />
     <Compile Include="Models\Diary.cs" />
     <Compile Include="Models\DiaryEntry.cs" />
+    <Compile Include="Models\Filter.cs" />
     <Compile Include="Models\Utils.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Services\RelayCommand.cs" />
@@ -84,6 +91,7 @@
     <Compile Include="ViewModels\DiaryEntryViewModel.cs" />
     <Compile Include="ViewModels\DiaryViewModel.cs" />
     <Compile Include="ViewModels\ViewModelConstants.cs" />
+    <Compile Include="Views\DateSlider.cs" />
     <Compile Include="Views\DiaryEntryDialog.xaml.cs">
       <DependentUpon>DiaryEntryDialog.xaml</DependentUpon>
     </Compile>
